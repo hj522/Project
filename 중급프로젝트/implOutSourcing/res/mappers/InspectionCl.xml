@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="inspectionCl">
+	<resultMap type="projectInsertVO" id="inspecPjClMap">
+		<result property="pjId" column="PJ_ID" />
+		<result property="pjProg" column="PJ_PROG" />
+		<result property="pjTit" column="PJ_TIT" />
+		<result property="pjCat" column="PJ_CAT" />
+		<result property="pjFi" column="PJ_FI" />
+		<result property="pjPlan" column="PJ_PLAN" />
+		<result property="pjWork" column="PJ_WORK" />
+		<result property="pjBud" column="PJ_BUD" />
+		<result property="pjBudStr" column="PJ_BUD_STR" />
+		<result property="pjSta" column="PJ_STA" />
+		<result property="pjProgDt" column="PJ_PROG_DT" />
+		<result property="pjMm" column="PJ_MM" />
+		<result property="pjMc" column="PJ_MC" />
+		<result property="pjClLo" column="PJ_CL_LO" />
+		<result property="pjPartRd" column="PJ_PART_RD" />
+		<result property="pjManSi" column="PJ_MAN_SI" />
+		<result property="pjManCom" column="PJ_MAN_COM" />
+		<result property="pjManaEx" column="PJ_MANA_EX" />
+		<result property="pjPrif" column="PJ_PRIF" />
+		<result property="pjPris" column="PJ_PRIS" />
+		<result property="pjPrit" column="PJ_PRIT" />
+		<result property="pjRegDt" column="PJ_REG_DT" />
+		<result property="pjProgSt" column="PJ_PROG_ST" />
+		<result property="cmtNum" column="CMT_NUM" />
+		<result property="clId" column="CL_ID" />
+		<result property="pjCop" column="PJ_COP" />
+		<result property="pjIng" column="PJ_ING" />
+		<result property="pjClass" column="PJ_CLASS" />
+		<result property="pjDeplan" column="PJ_DEPLAN" />
+		<result property="pjFile" column="PJ_FILE" />
+		<result property="pjRel" column="PJ_REL" />
+		<result property="pjApp" column="PJ_APP" />
+		<result property="pjCand" column="PJ_CAND" />
+		<result property="pjChkYn" column="PJ_CHK_YN" />
+		<result property="pjChkDt" column="PJ_CHK_DT" />
+		<result property="appCnt" column="APP_CNT" />
+	</resultMap>
+	
+	<select id="selectInspectionCl"  resultMap="inspecPjClMap">
+	<!-- paging 해야되는데 시간이 없어서 최근 검수 날짜 desc 로 limit 2개만 조회 -->
+		SELECT ROWNUM, A.*
+		FROM (
+			SELECT 
+			   PJ_ID
+			   ,PJ_PROG
+			   ,PJ_TIT
+			   ,PJ_CAT
+			   ,PJ_FI
+			   ,PJ_PLAN
+			   ,PJ_WORK
+			   ,TO_CHAR(PJ_BUD,'FM999,999,999,999') || '원' AS PJ_BUD_STR
+			   ,PJ_STA
+			   ,PJ_PROG_DT
+			   ,PJ_MM
+			   ,PJ_MC
+			   ,PJ_CL_LO
+			   ,TO_DATE(PJ_PART_RD,'YY-MM-DD') AS PJ_PART_RD
+			   ,PJ_MAN_SI
+			   ,PJ_MAN_COM
+			   ,PJ_MANA_EX
+			   ,PJ_PRIF
+			   ,PJ_PRIS
+			   ,PJ_PRIT
+			   ,PJ_REG_DT
+			   ,PJ_PROG_ST
+			   ,CMT_NUM
+			   ,CL_ID
+			   ,PJ_COP
+			   ,PJ_ING
+			   ,PJ_CLASS
+			   ,PJ_DEPLAN
+			   ,PJ_FILE
+			   ,PJ_REL
+			   ,PJ_APP
+			   ,PJ_CAND
+			   ,PJ_CHK_YN
+			   ,PJ_CHK_DT
+			FROM PJ
+			WHERE (PJ_CHK_YN IS NULL) OR PJ_CHK_YN = 'N'
+			ORDER BY PJ_CHK_DT DESC
+		) A
+ 		WHERE ROWNUM &lt;= 5 
+	</select>
+	
+	<select id="getSelectInspectionCl" parameterType="projectInsertVO" resultMap="inspecPjClMap">
+		SELECT 
+		   PJ_ID
+		   ,PJ_PROG
+		   ,PJ_TIT
+		   ,PJ_CAT
+		   ,PJ_FI
+		   ,PJ_PLAN
+		   ,PJ_WORK
+		   ,TO_CHAR(PJ_BUD,'FM999,999,999,999') || '원' AS PJ_BUD_STR
+		   ,PJ_STA
+		   ,PJ_PROG_DT
+		   ,PJ_MM
+		   ,PJ_MC
+		   ,PJ_CL_LO
+		   ,TO_DATE(PJ_PART_RD,'YY-MM-DD') AS PJ_PART_RD
+		   ,PJ_MAN_SI
+		   ,PJ_MAN_COM
+		   ,PJ_MANA_EX
+		   ,PJ_PRIF
+		   ,PJ_PRIS
+		   ,PJ_PRIT
+		   ,PJ_REG_DT
+		   ,PJ_PROG_ST
+		   ,CMT_NUM
+		   ,CL_ID
+		   ,PJ_COP
+		   ,PJ_ING
+		   ,PJ_CLASS
+		   ,PJ_DEPLAN
+		   ,PJ_FILE
+		   ,PJ_REL
+		   ,PJ_APP
+		   ,PJ_CAND
+		   ,PJ_CHK_YN
+		   ,PJ_CHK_DT
+		   ,X.CNT AS APP_CNT
+		FROM PJ A, (
+		SELECT COUNT(PJ_ID) AS CNT
+		FROM APP 
+		WHERE PJ_ID = #{pjId}
+      ) X 
+      WHERE A.PJ_ID = #{pjId}
+	</select>
+	
+	<!-- getUpdateInspection 라고 sql id를 적어놓고  updateInspection 로 적었으니 서로 매핑이안되지-->
+	<update id="getUpdateInspectionCl" parameterType="ProjectInsertVO">
+	UPDATE PJ
+		SET
+		PJ_CHK_YN = 'Y'
+	WHERE PJ_ID = #{pjId}
+	</update>
+	
+	<update id="UpdateInspectionClF" parameterType="ProjectInsertVO">
+	UPDATE PJ
+		SET
+		PJ_CHK_YN = 'F'
+	WHERE PJ_ID = #{pjId}
+	</update>
+	
+</mapper>

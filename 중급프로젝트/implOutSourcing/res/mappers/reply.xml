@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="reply">
+
+
+	<insert id="insertReply" parameterType="reply.vo.ReplyVO">
+	
+	INSERT INTO REP (rep_num, rep_con, mana_id,	in_num)
+	VALUES (REP_NUM_SEQ.nextval, #{repCon}, #{manaId},#{inNum})
+	
+	</insert>
+	
+		
+	<resultMap type="reply.vo.ReplyVO" id="reMap">
+	
+		<result property="repNum" column="rep_num" />
+		<result property="repCon" column="rep_con" />
+		<result property="manaId" column="mana_id" />
+		<result property="repCrDt" column="rep_cr_dt" />
+		<result property="inNum" column="in_Num" />
+		
+	</resultMap>
+	
+	
+	<select id="getReply" parameterType="int" resultMap="reMap">
+
+		select * from rep
+		where in_num = #{inNum}
+	
+	</select>
+	
+
+	<delete id="deleteReply" parameterType="int">
+	
+	delete from rep where rep_num = #{repNum}
+	
+	</delete>
+	
+	<update id="updateReply" parameterType="reply.vo.ReplyVO">
+	
+	update rep set rep_con = #{repCon} WHERE rep_num = #{repNum}
+	
+	</update>
+	
+	<select id="getRepList" parameterType="reply.vo.ReplyVO" resultMap="reMap">
+
+		select * from rep
+		where in_num = #{inNum}
+	
+	</select>
+	
+</mapper>

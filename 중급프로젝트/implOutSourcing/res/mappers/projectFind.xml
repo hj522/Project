@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pjfind">
+
+	<resultMap type="pfVO" id="projectMap">
+		<result property="pjId" column="PJ_ID" />
+		<result property="pjProg" column="PJ_PROG" />
+		<result property="pjTit" column="PJ_TIT" />
+		<result property="pjCat" column="PJ_CAT" />
+		<result property="pjFi" column="PJ_FI" />
+		<result property="pjPlan" column="PJ_PLAN" />
+		<result property="pjWork" column="PJ_WORK" />
+		<result property="pjBud" column="PJ_BUD" />
+		<result property="pjSta" column="PJ_STA" />
+		<result property="pjProgDt" column="PJ_PROG_DT" />
+		<result property="pjMm" column="PJ_MM" />
+		<result property="pjMc" column="PJ_MC" />
+		<result property="pjClLo" column="PJ_CL_LO" />
+		<result property="pjPartRd" column="PJ_PART_RD" />
+		<result property="pjManSi" column="PJ_MAN_SI" />
+		<result property="pjManCom" column="PJ_MAN_COM" />
+		<result property="pjManaEx" column="PJ_MANA_EX" />
+		<result property="pjPrif" column="PJ_PRIF" />
+		<result property="pjPris" column="PJ_PRIS" />
+		<result property="pjPrit" column="PJ_PRIT" />
+		<result property="pjRegDt" column="PJ_REG_DT" />
+		<result property="pjProgSt" column="PJ_PROG_ST" />
+		<result property="cmtNum" column="CMT_NUM" />
+		<result property="clId" column="CL_ID" />
+		<result property="pjCop" column="PJ_COP" />
+		<result property="pjIng" column="PJ_ING" />
+		<result property="pjClass" column="PJ_CLASS" />
+		<result property="pjDeplan" column="PJ_DEPLAN" />
+		<result property="pjFile" column="PJ_FILE" />
+		<result property="pjRel" column="PJ_REL" />
+		<result property="pjApp" column="PJ_APP" />
+		<result property="pjCand" column="PJ_CAND" />
+		<result property="pjChkYn" column="PJ_CHK_YN" />
+		<result property="pjChkDt" column="PJ_CHK_DT" />
+	</resultMap>
+	
+	<select id="selectAll" resultMap="projectMap">
+		SELECT *
+		FROM   PJ
+		
+	</select>
+	
+	<select id="allBud" resultMap="projectMap">
+		SELECT *
+		FROM   PJ
+		WHERE  PJ_ING = 0
+		ORDER  BY PJ_BUD DESC
+	</select>
+	<select id="allRegDt" resultMap="projectMap">
+		SELECT *
+		FROM   PJ
+		WHERE  PJ_ING = 0
+		ORDER  BY PJ_REG_DT DESC
+	</select>
+	<select id="checkProg1" resultMap="projectMap">
+		SELECT *
+		FROM   PJ
+		WHERE  PJ_PROG = '외주(도급)'
+	</select>
+	<select id="checkProg2" resultMap="projectMap">
+		SELECT *
+		FROM   PJ
+		WHERE  PJ_PROG = '기간제(상주)'
+	</select>
+	<select id="checkCate" parameterType="string" resultMap="projectMap">
+		SELECT *
+		FROM   PJ
+		WHERE  PJ_CAT LIKE '%'||#{cate}||'%'
+	</select>
+	<select id="checkFi" parameterType="string" resultMap="projectMap">
+		SELECT *
+		FROM   PJ
+		WHERE  PJ_FI LIKE '%'||#{fi}||'%'
+	</select>
+	<select id="checkBud" parameterType="hashmap" resultMap="projectMap">
+		SELECT *
+		FROM   PJ
+		WHERE  PJ_BUD >= #{bud1}
+		AND    PJ_BUD &lt;= #{bud2}
+	</select>
+	<select id="checkDat" parameterType="hashmap" resultMap="projectMap">
+		SELECT *
+		FROM   PJ
+		WHERE  PJ_PROG_DT >= #{dat1}
+		AND    PJ_PROG_DT &lt;= #{dat2}
+	</select>
+	<select id="searchAll" parameterType="hashmap" resultMap="projectMap">
+		SELECT *
+		FROM   PJ
+		WHERE  PJ_TIT LIKE '%'||#{search1}||'%'
+		OR     PJ_WORK LIKE '%'||#{search2}||'%'
+	</select>
+	<select id="searchTit" parameterType="string" resultMap="projectMap">
+		SELECT *
+		FROM   PJ
+		WHERE  PJ_TIT LIKE '%'||#{search1}||'%'
+	</select>
+	<select id="searchWork" parameterType="string" resultMap="projectMap">
+		SELECT *
+		FROM   PJ
+		WHERE  PJ_WORK LIKE '%'||#{search1}||'%'
+	</select>
+</mapper>

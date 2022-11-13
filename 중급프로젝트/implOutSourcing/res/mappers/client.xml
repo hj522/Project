@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="client">
+
+	<insert id="signUpClient" parameterType="client.vo.ClientVO">
+	
+	INSERT INTO CL (cl_id, cl_pw, cl_nm, cl_ph, cl_em, cl_addr) VALUES (#{clId}, #{clPw}, #{clNm}, #{clPh}, #{clEm}, #{clAddr})
+	
+	</insert>
+	
+	<select id="checkClient" parameterType="String" resultType="int">
+	
+	SELECT (A.cnt + B.cnt) cnt
+	FROM
+	(select count(*) as cnt from PART where part_id = #{partId}) A ,
+	(select count(*) as cnt from CL where cl_id = #{clId}) B
+	
+	</select>
+	
+	<resultMap type="client.vo.ClientVO" id="clMap">
+
+	<result property="ClId" column="cl_id" />
+	<result property="ClNm" column="cl_nm" />
+	<result property="ClPw" column="cl_pw" />
+	<result property="ClPh" column="cl_ph" />
+	<result property="ClEm" column="cl_em" />
+	<result property="ClAddr" column="cl_addr" />
+	<result property="ClInt" column="cl_int" />
+	
+	</resultMap>
+	
+	<select id="clientAllList" resultMap="clMap">
+	
+	select * from cl
+	
+	</select>
+	
+	<select id="getClient" parameterType="String" resultMap="clMap">
+	
+	select *
+	from cl
+	where cl_id = #{clId}
+	
+	</select>
+	
+</mapper>

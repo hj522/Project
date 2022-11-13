@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="inquery">
+
+	<insert id="insertInquery" parameterType="inquery.vo.InqueryVO">
+	
+	INSERT INTO IIN (in_num, in_tit, in_con, in_cr_dt, part_id, cl_id) 
+	VALUES (IIN_IN_NUM_SEQ.nextval, #{inTit}, #{inCon}, sysdate, #{partId}, #{clId})
+
+	</insert>
+	
+	
+	<resultMap type="inquery.vo.InqueryVO" id="inMap">
+	
+	<result property="inNum" column="in_num" />
+	<result property="inTit" column="in_tit" />
+	<result property="inCon" column="in_con" />
+	<result property="inCrDt" column="in_cr_dt" />
+	<result property="partId" column="part_id" />
+	<result property="clId" column="cl_id" />
+	<result property="repNum" column="rep_num" />
+	
+	</resultMap>
+	
+	<select id="inqueryAllList" resultMap="inMap">
+	
+	select * from iin
+	
+	</select>
+	
+	<select id="getInquery" parameterType="int" resultMap="inMap">
+	
+	select *
+	from iin
+	where in_num = #{inNum}
+	
+	</select>
+	
+	<select id="getMyInqueryP" resultMap="inMap">
+	
+	select *
+	from iin
+	where part_id = #{partId}
+	
+	</select>
+	
+	<select id="getMyInqueryC" resultMap="inMap">
+	
+	select *
+	from iin
+	where cl_id = #{clId}
+	
+	</select>
+	
+	<delete id="deleteInquery" parameterType="int">
+	
+	delete from iin where in_num = #{inNum}
+	
+	</delete>
+	
+	<update id="updateInquery" parameterType="inquery.vo.InqueryVO">
+	
+	update iin set in_tit = #{inTit} ,in_con = #{inCon} WHERE in_num = #{inNum}
+	
+	</update>
+	
+</mapper>

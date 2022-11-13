@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.notification">
+	
+	<resultMap type="ProjectInsertVO" id="proNotiMap">
+		 <result property="pjId"		column="PJ_ID" />	 
+		 <result property="pjProg"		column="PJ_PROG" />
+		 <result property="pjTit"		column="PJ_TIT" />
+		 <result property="pjCat"		column="PJ_CAT "/>
+		 <result property="pjFi"		column="PJ_FI" />
+		 <result property="pjPlan"		column="PJ_PLAN" />
+		 <result property="pjWork"		column="PJ_WORK" />
+		 <result property="pjBud"		column="PJ_BUD" />
+		 <result property="pjSta"		column="PJ_STA" />
+		 <result property="pjProgDt"	column="PJ_PROG_DT" />
+		 <result property="pjMm"		column="PJ_MM" />
+		 <result property="pjMc"		column="PJ_MC" />
+		 <result property="pjClLo"		column="PJ_CL_LO" />
+		 <result property="pjPartRd"	column="PJ_PART_RD" />
+		 <result property="pjManSi"		column="PJ_MAN_SI" />
+		 <result property="pjManCom"	column="PJ_MAN_COM" />
+		 <result property="pjManaEx"	column="PJ_MANA_EX" />
+		 <result property="pjPrif"		column="PJ_PRIF" />
+		 <result property="pjPris"		column="PJ_PRIS" />
+		 <result property="pjPrit"		column="PJ_PRIT" />
+		 <result property="pjRegDt"		column="PJ_REG_DT" />
+		 <result property="pjProgSt"	column="PJ_PROG_ST" />
+		 <result property="cmtNum"		column="CMT_NUM" />
+		 <result property="clId"		column="CL_ID" />
+		 <result property="pjIng"		column="PJ_ING" />
+		 <result property="pjDeplan"	column="PJ_DEPLAN" />
+		 <result property="pjClass"		column="PJ_CLASS" />
+		 <result property="pjRel"		column="PJ_REL" />
+		 <result property="pjApp"		column="PJ_APP" />
+		 <result property="pjCand"		column="PJ_CAND" />
+		 <result property="pjChkYn"		column="PJ_CHK_YN" />
+		 <result property="pjChkDt"		column="PJ_CHK_DT" />
+		 <result property="appCnt"		column="APP_NUM" />
+		 <result property="appCrDt"		column="APP_CR_DT" />
+		 <result property="partId"		column="PART_ID" />
+		 <result property="partNm"		column="PART_NM" />
+		 <result property="partPh"		column="PART_PH" />
+		 <result property="partOc"		column="PART_OC" />
+	</resultMap>
+	
+	
+	<select id="projectNotification" parameterType="projectinsert.vo.ProjectInsertVO" resultMap="proNotiMap">
+		SELECT ROWNUM, A.*
+		FROM (
+		    SELECT
+		        PJ_ID,
+		        PJ_PROG,
+		        PJ_TIT,
+		        PJ_CAT,
+		        PJ_FI,
+		        PJ_PLAN,
+		        PJ_WORK,
+		        PJ_BUD,
+		        PJ_STA,
+		        PJ_PROG_DT,
+		        PJ_MM,
+		        PJ_MC,
+		        PJ_CL_LO,
+		        PJ_PART_RD,
+		        PJ_MAN_SI,
+		        PJ_MAN_COM,
+		        PJ_MANA_EX,
+		        PJ_PRIF,
+		        PJ_PRIS,
+		        PJ_PRIT,
+		        PJ_REG_DT,
+		        PJ_PROG_ST,
+		        CMT_NUM,
+		        CL_ID,
+		        PJ_COP,
+		        PJ_ING,
+		        PJ_CLASS,
+		        PJ_DEPLAN,
+		        PJ_FILE,
+		        PJ_REL,
+		        PJ_APP,
+		        PJ_CAND,
+		        PJ_CHK_YN,
+		        PJ_CHK_DT
+		    FROM PJ
+		    WHERE CL_ID = #{clId}
+		    AND PJ_CHK_YN = 'Y' 
+		    ORDER BY PJ_CHK_DT DESC
+		) A
+		WHERE ROWNUM &lt;= 3
+	</select>
+	
+	<select id="appNotification" resultType="int">
+		SELECT ROWNUM, A.*
+			FROM (
+			    SELECT
+			    APP_NUM,
+			    APP_CR_DT,
+			    PART_ID,
+			    PJ_ID
+			    FROM
+			        APP
+			    WHERE PART_ID IN (
+			        SELECT PART_ID
+			        FROM PJ
+			        WHERE CL_ID = #{clId}
+			    )
+			    ORDER BY APP_CR_DT DESC
+			) A
+			WHERE ROWNUM &lt;= 5
+	</select>
+	
+	<select id="selectInspecNotification" parameterType="projectInsertVO" resultMap="proNotiMap">
+		SELECT ROWNUM, A.* 
+		FROM (
+			SELECT	
+				PJ_ID
+				, PJ_PROG
+				, PJ_TIT
+				, PJ_CAT
+				, PJ_FI
+				, PJ_PLAN
+				, PJ_WORK
+				, PJ_BUD
+				, PJ_STA
+				, PJ_PROG_DT
+				, PJ_MM
+				, PJ_MC
+				, PJ_CL_LO
+				, PJ_PART_RD
+				, PJ_MAN_SI
+				, PJ_MAN_COM
+				, PJ_MANA_EX
+				, PJ_PRIF
+				, PJ_PRIS
+				, PJ_PRIT
+				, PJ_REG_DT
+				, PJ_PROG_ST
+				, CMT_NUM
+				, CL_ID
+				, PJ_COP
+				, PJ_ING
+				, PJ_CLASS
+				, PJ_DEPLAN
+				, PJ_FILE
+				, PJ_REL
+				, PJ_APP
+				, PJ_CAND
+				, PJ_CHK_YN
+				, PJ_CHK_DT
+			FROM PJ
+			WHERE 1=1
+			AND PJ_CHK_YN != 'Y'  
+			ORDER BY PJ_CHK_DT, PJ_ID DESC
+		) A
+		WHERE ROWNUM &lt;= 5 
+	</select>
+	
+	<select id="selectAppInspecNotification" parameterType='projectInsertVO' resultMap="proNotiMap">
+		SELECT
+			APP_NUM
+			, APP_CR_DT
+			, A.PART_ID
+			, A.PJ_ID
+			, PJ_PROG
+			, PJ_TIT
+			, PJ_CAT
+			, PJ_FI
+			, PJ_PLAN
+			, PJ_WORK
+			, PJ_BUD
+			, PJ_STA
+			, PJ_PROG_DT
+			, PJ_MM
+			, PJ_MC
+			, PJ_CL_LO
+			, PJ_PART_RD
+			, PJ_MAN_SI
+			, PJ_MAN_COM
+			, PJ_MANA_EX
+			, PJ_PRIF
+			, PJ_PRIS
+			, PJ_PRIT
+			, PJ_REG_DT
+			, PJ_PROG_ST
+			, CMT_NUM
+			, CL_ID
+			, PJ_COP
+			, PJ_ING
+			, PJ_CLASS
+			, PJ_DEPLAN
+			, PJ_FILE
+			, PJ_REL
+			, PJ_APP
+			, PJ_CAND
+			, PJ_CHK_YN
+			, PJ_CHK_DT
+			, X.PART_NM 
+			, X.PART_PH 
+			, X.PART_OC 
+		FROM
+			APP A LEFT OUTER JOIN PJ P ON (A.PJ_ID = P.PJ_ID)
+				LEFT OUTER JOIN PART X ON (A.PART_ID = X.PART_ID)
+		WHERE P.CL_ID  = #{clId}
+	</select>
+</mapper>

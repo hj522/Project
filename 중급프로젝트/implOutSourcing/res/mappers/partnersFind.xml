@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ptfind">
+
+	<resultMap type="partners.vo.PartnersVO" id="ptMap">
+
+	<result property="PartId" column="part_id" />
+	<result property="PartPw" column="part_pw" />
+	<result property="PartNm" column="part_nm" />
+	<result property="PartPh" column="part_ph" />
+	<result property="PartEm" column="part_em" />
+	<result property="PartOc" column="part_oc" />
+	<result property="PartTy" column="part_ty" />
+	<result property="PartCer" column="part_cer" />
+	<result property="PartInt" column="part_int" />
+	<result property="PartAddr" column="part_addr" />
+	<result property="ReNum" column="re_num" />
+	<result property="PartMark" column="part_mark" />
+	
+	</resultMap>
+	
+	
+
+</mapper>

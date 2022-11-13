@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="login">
+
+	<select id="mlogin" parameterType="login.vo.LoginVO" resultType="string">
+		SELECT MANA_ID 
+		FROM MANA 
+		WHERE MANA_ID = #{id} 
+		AND MANA_PW = #{pass}
+	</select>
+	
+	<select id="clogin" parameterType="login.vo.LoginVO" resultType="string">
+		SELECT CL_ID FROM CL WHERE CL_ID=#{id} AND CL_PW=#{pass}
+	</select>
+	
+	<select id="plogin" parameterType="login.vo.LoginVO" resultType="string">
+		SELECT PART_ID
+		FROM   PART
+		WHERE  PART_ID = #{id}
+		AND    PART_PW = #{pass}
+	</select>
+	
+	<select id="cfind" parameterType="login.vo.LoginVO" resultType="string">
+		SELECT CL_ID
+		FROM   CL
+		WHERE  CL_NM = #{name}
+		AND    CL_PH = #{tel}
+	</select>
+	
+	<select id="pfind" parameterType="login.vo.LoginVO" resultType="string">
+		SELECT PART_ID
+		FROM   PART
+		WHERE  PART_NM = #{name}
+		AND    PART_PH = #{tel}
+	</select>
+	
+	<select id="cfindpw" parameterType="login.vo.LoginVO" resultType="string">
+		SELECT CL_PW
+		FROM   CL
+		WHERE  CL_ID = #{id}
+		AND    CL_EM = #{email}
+	</select>
+	
+	<select id="pfindpw" parameterType="login.vo.LoginVO" resultType="string">
+		SELECT PART_PW
+		FROM   PART
+		WHERE  PART_ID = #{id}
+		AND    PART_EM = #{email}
+	</select>
+	<resultMap type="partners.vo.PartnersVO" id="ptMap">
+
+	<result property="PartId" column="part_id" />
+	<result property="PartPw" column="part_pw" />
+	<result property="PartNm" column="part_nm" />
+	<result property="PartPh" column="part_ph" />
+	<result property="PartEm" column="part_em" />
+	<result property="PartOc" column="part_oc" />
+	<result property="PartTy" column="part_ty" />
+	<result property="PartCer" column="part_cer" />
+	<result property="PartInt" column="part_int" />
+	<result property="PartAddr" column="part_addr" />
+	<result property="ReNum" column="re_num" />
+	<result property="PartMark" column="part_mark" />
+	
+	</resultMap>
+	
+	<resultMap type="client.vo.ClientVO" id="clMap">
+
+	<result property="ClId" column="cl_id" />
+	<result property="ClNm" column="cl_nm" />
+	<result property="ClPw" column="cl_pw" />
+	<result property="ClPh" column="cl_ph" />
+	<result property="ClEm" column="cl_em" />
+	<result property="ClTy" column="cl_ty" />
+	<result property="ClInt" column="cl_int" />
+	<result property="ClAddr" column="cl_addr" />
+	<result property="AppNum" column="app_num" />
+	<result property="ClBir" column="cl_bir" />
+	<result property="ClHom" column="cl_hom" />
+	<result property="ClFax" column="cl_fax" />
+	
+	</resultMap>
+	<select id="pinfo" parameterType="login.vo.LoginVO" resultMap="ptMap">
+		SELECT *
+		FROM   PART
+		WHERE  PART_ID = #{id}
+		AND    PART_PW = #{pass}
+	</select>
+	<select id="cinfo" parameterType="login.vo.LoginVO" resultMap="clMap">
+		SELECT *
+		FROM   CL
+		WHERE  CL_ID = #{id}
+		AND    CL_PW = #{pass}
+	</select>
+</mapper>

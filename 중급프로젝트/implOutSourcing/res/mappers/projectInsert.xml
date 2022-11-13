@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="project">
+
+   <insert id="insertProjectInsert"
+      parameterType="projectinsert.vo.ProjectInsertVO">
+
+      INSERT INTO pj
+      (pj_id, pj_prog, cl_id)
+      VALUES (pj_seq.nextval, #{pjProg}, #{clId})
+
+   </insert>
+   <update id="updateIng" parameterType="projectinsert.vo.ProjectInsertVO">
+      UPDATE PJ
+      SET PJ_ING = 0,
+      PJ_PROG_ST = '검수중'
+      WHERE PJ_ING = 1
+   </update>
+   <update id="updateProjectInsert1"
+      parameterType="projectinsert.vo.ProjectInsertVO">
+      UPDATE pj
+      SET pj_tit = #{pjTit}
+      ,pj_cat = #{pjCat}
+      ,pj_fi = #{pjFi}
+      WHERE PJ_ING = 1
+   </update>
+   <update id="updateProjectInsert2" parameterType="projectinsert.vo.ProjectInsertVO">
+      UPDATE PJ
+      SET PJ_CLASS = #{pjClass},
+       PJ_PLAN = #{pjPlan},
+       PJ_DEPLAN = #{pjDeplan}
+      WHERE PJ_ING = 1
+   </update>
+   
+   <update id="updateProjectInsert3" parameterType="projectinsert.vo.ProjectInsertVO">
+   		UPDATE pj
+   		SET pj_work = #{pjWork},
+   			pj_rel = #{pjRel}
+   		WHERE PJ_ING = 1
+   </update>
+   
+   <update id="updateProjectInsert4" parameterType="projectinsert.vo.ProjectInsertVO">
+   		UPDATE pj
+   		SET pj_bud = #{pjBud},
+   				pj_sta = #{pjSta},
+   				pj_prog_dt = #{pjProgDt}
+   		WHERE PJ_ING = 1
+   </update>
+   
+   <update id="updateProjectInsert5" parameterType="projectinsert.vo.ProjectInsertVO">
+   		UPDATE pj
+   		SET pj_mm = #{pjMm},
+   				pj_mc = #{pjMc},
+   				pj_cl_lo = #{pjClLo}
+   		WHERE PJ_ING = 1
+   </update>
+   
+   <update id="updateProjectInsert6" parameterType="projectinsert.vo.ProjectInsertVO">
+   		UPDATE pj
+   		SET pj_part_rd = #{pjPartRd},
+   				pj_app = #{pjApp}
+   		WHERE PJ_ING = 1
+   </update>
+   
+   <update id="updateProjectInsert7" parameterType="projectinsert.vo.ProjectInsertVO">
+   		UPDATE pj
+   		SET pj_man_si = #{pjManSi},
+   				pj_man_com = #{pjManCom},
+   				pj_mana_ex = #{pjManaEx},
+   				pj_prif = #{pjPrif},
+   				pj_pris = #{pjPris},
+   				pj_prit = #{pjPrit}
+   		WHERE PJ_ING = 1
+   </update>
+   
+   
+</mapper>

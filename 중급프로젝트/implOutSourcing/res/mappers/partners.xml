@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="partners">
+
+	<insert id="signUpPartners" parameterType="partners.vo.PartnersVO">
+	
+	INSERT INTO PART (part_id, part_pw, part_nm, part_ph, part_em, part_addr) 
+	VALUES (#{partId}, #{partPw}, #{partNm}, #{partPh}, #{partEm}, #{partAddr})
+	
+	</insert>
+	
+	
+	<update id="updatePartners">
+	
+	UPDATE PART SET part_id = #{partId} 
+				,part_pw = #{partPw} 
+				,part_nm = #{partNm} 
+				,part_ph = #{partPh} 
+				,part_em = #{partEm} 
+				,part_addr = #{partAddr} 
+				,part_cer = #{partCer}
+				WHERE part_id = #{partId} 
+	
+	</update>
+	
+	
+	
+	<delete id="deletePartners" parameterType="String">
+	
+	delete from PART where part_id = #{aaaaaa}
+	
+	</delete>
+	
+	
+	
+	<resultMap type="partners.vo.PartnersVO" id="partMap">
+	
+		<result property="partId" column="part_id" />
+		<result property="partPw" column="part_pw" />
+		<result property="partNm" column="part_nm" />
+		<result property="partPh" column="part_ph" />
+		<result property="partEm" column="part_em" />
+		<result property="partCer" column="part_cer" />
+		<result property="partAddr" column="part_addr" />
+	
+	</resultMap>
+	
+	
+	<select id="getPartners" parameterType="String" resultMap="partMap">
+	
+	select *
+	from PART
+	where part_id = #{partId}
+	
+	</select>
+	
+	
+	<select id="checkPartners" parameterType="String" resultType="int">
+	
+	select count(*) as cnt
+	from PART
+	where part_id = #{partId}
+	
+	</select>
+	
+	<resultMap type="partners.vo.PartnersVO" id="ptMap">
+
+	<result property="PartId" column="part_id" />
+	<result property="PartNm" column="part_nm" />
+	<result property="PartPw" column="part_pw" />
+	<result property="PartPh" column="part_ph" />
+	<result property="PartEm" column="part_em" />
+	<result property="PartCer" column="part_cer" />
+	<result property="PartAddr" column="part_addr" />
+	
+	</resultMap>
+	
+	<select id="partnersAllList" resultMap="ptMap">
+	
+	select * from part
+	
+	</select>
+
+	
+</mapper>
